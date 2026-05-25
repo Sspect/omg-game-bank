@@ -5,6 +5,34 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
     const supabase = createClient(supabaseUrl, supabaseKey)
 
+    const datasetGames = [
+      {
+        name: 'Chess',
+        min_players: 2,
+        max_players: 2
+      },
+      {
+        name: 'Catan',
+        min_players: 3,
+        max_players: 4
+      },
+      {
+        name: 'Carcassonne',
+        min_players: 2,
+        max_players: 5
+      },
+      {
+        name: 'Pandemic',
+        min_players: 2,
+        max_players: 4
+      },
+      {
+        name: 'Codenames',
+        min_players: 2,
+        max_players: 8
+      }
+    ]
+
     async function loadGames() {
       const { data, error } = await supabase
         .from('Game')
@@ -55,5 +83,39 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
       }
     }
 
+    async function resetToDataset() {
+      const confirmed = window.confirm(
+        'This will delete all games and replace them with the dataset. Continue?'
+      )
+
+      if (!confirmed) {
+        return
+      }
+
+      const { error: deleteError } = await supabase
+        .from('Game')
+        .delete()
+        .not('id', 'is', null)
+
+      if (deleteError) {
+        console.error('Error deleting games:', deleteError)
+        alert('Error deleting games')
+        return
+      }
+
+      const { error: insertError } = await supabase
+        .from('Game')
+        .insert(datasetGames)
+
+      if (insertError) {
+        console.error('Error inserting dataset:', insertError)
+        alert('Error adding dataset')
+        return
+      }
+
+      loadGames()
+    }
+
     document.getElementById('addGameBtn').addEventListener('click', addGame)
+    document.getElementById('datasetBtn').addEventListener('click', resetToDataset)
     loadGames()

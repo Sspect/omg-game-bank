@@ -27,6 +27,13 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+#datasetBtn {
+  background-color: #d32f2f;
+  margin-left: 10px;
+}
+#datasetBtn:hover {
+  background-color: #b71c1c;
+}
 #gamesList {
   margin-top: 20px;
 }
