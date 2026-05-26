@@ -94,11 +94,6 @@
                 </div>
 
                 <div class="col-12 col-md-6">
-                    <label for="shelf" class="form-label">Shelf</label>
-                    <input type="number" class="form-control" id="shelf" name="shelf" min="0" max="255" />
-                </div>
-
-                <div class="col-12 col-md-6">
                     <label for="year_published" class="form-label">Year Published</label>
                     <input type="number" class="form-control" id="year_published" name="year_published" min="1000"
                         max="9999" placeholder="e.g. 2019" />
@@ -164,6 +159,20 @@
 
 
 
+                
+
+                <div class="col-12 col-md-6">
+                    <label for="game_image" class="form-label">Game Image URL</label>
+                    <input type="url" class="form-control" id="game_image" name="game_image" maxlength="255"
+                        placeholder="https://..." />
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label for="game_website" class="form-label">Game Website URL</label>
+                    <input type="url" class="form-control" id="game_website" name="game_website" maxlength="255"
+                        placeholder="https://..." />
+                </div>
+
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Upload Image</label>
@@ -181,18 +190,6 @@
                 </div>
 
                 <div class="col-12 col-md-6">
-                    <label for="game_image" class="form-label">Game Image URL</label>
-                    <input type="url" class="form-control" id="game_image" name="game_image" maxlength="255"
-                        placeholder="https://..." />
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <label for="game_website" class="form-label">Game Website URL</label>
-                    <input type="url" class="form-control" id="game_website" name="game_website" maxlength="255"
-                        placeholder="https://..." />
-                </div>
-
-                <div class="col-12">
                     <label for="mechanicSearchInput" class="form-label">Game Mechanics</label>
                     <div id="mechanicPicker" class="position-relative">
                         <div id="selectedMechanics" class="d-flex flex-wrap gap-2 mb-2"></div>
@@ -207,7 +204,7 @@
                     </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 col-md-6">
                     <label for="themeSearchInput" class="form-label">Theme</label>
                     <div id="themePicker" class="position-relative">
                         <div id="selectedThemes" class="d-flex flex-wrap gap-2 mb-2"></div>
@@ -222,7 +219,7 @@
                     </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 col-md-6">
                     <label for="tagSearchInput" class="form-label">Tags</label>
                     <div id="tagPicker" class="position-relative">
                         <div id="selectedTags" class="d-flex flex-wrap gap-2 mb-2"></div>
