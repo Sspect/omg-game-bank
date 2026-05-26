@@ -1,18 +1,16 @@
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Add Game</title>
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-            crossorigin="anonymous"
-        />
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-md bg-body-tertiary">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md bg-body-tertiary">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                 aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,372 +46,211 @@
     </nav>
 
 
-        <main class="container py-4">
-            <h1 class="h3 mb-3">Add New Game</h1>
+    <main class="container py-4">
+        <h1 class="h3 mb-3">Add New Game</h1>
 
-            <form id="gameLibraryForm" class="card p-3 p-md-4 shadow-sm">
-                <div class="row g-3">
-                    <div class="col-12 col-md-6">
-                        <label for="name" class="form-label">Name *</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="name"
-                            name="name"
-                            maxlength="255"
-                            required
-                        />
-                    </div>
+        <form id="gameLibraryForm" class="card p-3 p-md-4 shadow-sm">
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label for="name" class="form-label">Name *</label>
+                    <input type="text" class="form-control" id="name" name="name" maxlength="255" required />
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="owner" class="form-label">Owner *</label>
-                        <select
-                            class="form-select"
-                            id="owner"
-                            name="owner"
-                            required
-                        >
-                            <option value="" selected disabled>
-                                Choose owner
-                            </option>
-                            <option value="Oslo Met University">
-                                Oslo Met University
-                            </option>
-                            <option value="Privately Owned">
-                                Privately Owned
-                            </option>
-                        </select>
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="owner" class="form-label">Owner *</label>
+                    <select class="form-select" id="owner" name="owner" required>
+                        <option value="" selected disabled>
+                            Choose owner
+                        </option>
+                        <option value="Oslo Met University">
+                            Oslo Met University
+                        </option>
+                        <option value="Privately Owned">
+                            Privately Owned
+                        </option>
+                    </select>
+                </div>
 
-                    <div class="col-12 col-md-3">
-                        <label for="players_min" class="form-label"
-                            >Players Min</label
-                        >
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="players_min"
-                            name="players_min"
-                            min="1"
-                            max="255"
-                        />
-                    </div>
+                <div class="col-12 col-md-3">
+                    <label for="players_min" class="form-label">Players Min</label>
+                    <input type="number" class="form-control" id="players_min" name="players_min" min="1" max="255" />
+                </div>
 
-                    <div class="col-12 col-md-3">
-                        <label for="players_max" class="form-label"
-                            >Players Max</label
-                        >
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="players_max"
-                            name="players_max"
-                            min="1"
-                            max="255"
-                        />
-                    </div>
+                <div class="col-12 col-md-3">
+                    <label for="players_max" class="form-label">Players Max</label>
+                    <input type="number" class="form-control" id="players_max" name="players_max" min="1" max="255" />
+                </div>
 
-                    <div class="col-12 col-md-3">
-                        <label for="game_hours_min" class="form-label"
-                            >Game Hours Min</label
-                        >
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="game_hours_min"
-                            name="game_hours_min"
-                            min="0"
-                            step="0.5"
-                        />
-                    </div>
+                <div class="col-12 col-md-3">
+                    <label for="game_hours_min" class="form-label">Game Hours Min</label>
+                    <input type="number" class="form-control" id="game_hours_min" name="game_hours_min" min="0"
+                        step="0.5" />
+                </div>
 
-                    <div class="col-12 col-md-3">
-                        <label for="game_hours_max" class="form-label"
-                            >Game Hours Max</label
-                        >
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="game_hours_max"
-                            name="game_hours_max"
-                            min="0"
-                            step="0.1"
-                        />
-                    </div>
+                <div class="col-12 col-md-3">
+                    <label for="game_hours_max" class="form-label">Game Hours Max</label>
+                    <input type="number" class="form-control" id="game_hours_max" name="game_hours_max" min="0"
+                        step="0.1" />
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="shelf" class="form-label">Shelf</label>
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="shelf"
-                            name="shelf"
-                            min="0"
-                            max="255"
-                        />
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="shelf" class="form-label">Shelf</label>
+                    <input type="number" class="form-control" id="shelf" name="shelf" min="0" max="255" />
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="year_published" class="form-label"
-                            >Year Published</label
-                        >
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="year_published"
-                            name="year_published"
-                            min="1000"
-                            max="9999"
-                            placeholder="e.g. 2019"
-                        />
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="year_published" class="form-label">Year Published</label>
+                    <input type="number" class="form-control" id="year_published" name="year_published" min="1000"
+                        max="9999" placeholder="e.g. 2019" />
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="game_complexity" class="form-label"
-                            >Game Complexity</label
-                        >
-                        <select
-                            class="form-select"
-                            id="game_complexity"
-                            name="game_complexity"
-                        >
-                            <option value="" selected>Choose complexity</option>
-                            <option value="Light">Light</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Heavy">Heavy</option>
-                        </select>
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="game_complexity" class="form-label">Game Complexity</label>
+                    <select class="form-select" id="game_complexity" name="game_complexity">
+                        <option value="" selected>Choose complexity</option>
+                        <option value="Light">Light</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Heavy">Heavy</option>
+                    </select>
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="recommended_age" class="form-label"
-                            >Recommended Age</label
-                        >
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="recommended_age"
-                            name="recommended_age"
-                            min="0"
-                            max="255"
-                        />
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="recommended_age" class="form-label">Recommended Age</label>
+                    <input type="number" class="form-control" id="recommended_age" name="recommended_age" min="0"
+                        max="255" />
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="expansion_or_base" class="form-label"
-                            >Expansion or Base *</label
-                        >
-                        <select
-                            class="form-select"
-                            id="expansion_or_base"
-                            name="expansion_or_base"
-                            required
-                        >
-                            <option value="" selected disabled>
-                                Choose type
-                            </option>
-                            <option value="Base Game">Base Game</option>
-                            <option value="Expansion">Expansion</option>
-                        </select>
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="expansion_or_base" class="form-label">Expansion or Base *</label>
+                    <select class="form-select" id="expansion_or_base" name="expansion_or_base" required>
+                        <option value="" selected disabled>
+                            Choose type
+                        </option>
+                        <option value="Base Game">Base Game</option>
+                        <option value="Expansion">Expansion</option>
+                    </select>
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="condition_status" class="form-label"
-                            >Condition Status</label
-                        >
-                        <select
-                            class="form-select"
-                            id="condition_status"
-                            name="condition_status"
-                        >
-                            <option value="" selected>Choose condition</option>
-                            <option value="Good">Good</option>
-                            <option value="Damaged">Damaged</option>
-                            <option value="Missing Pieces">
-                                Missing Pieces
-                            </option>
-                            <option value="Out for Repair">
-                                Out for Repair
-                            </option>
-                        </select>
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="condition_status" class="form-label">Condition Status</label>
+                    <select class="form-select" id="condition_status" name="condition_status">
+                        <option value="" selected>Choose condition</option>
+                        <option value="Good">Good</option>
+                        <option value="Damaged">Damaged</option>
+                        <option value="Missing Pieces">
+                            Missing Pieces
+                        </option>
+                        <option value="Out for Repair">
+                            Out for Repair
+                        </option>
+                    </select>
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="language" class="form-label"
-                            >Language</label
-                        >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="language"
-                            name="language"
-                            maxlength="100"
-                            placeholder="e.g. English"
-                        />
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="language" class="form-label">Language</label>
+                    <input type="text" class="form-control" id="language" name="language" maxlength="100"
+                        placeholder="e.g. English" />
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="game_designer" class="form-label"
-                            >Game Designer</label
-                        >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="game_designer"
-                            name="game_designer"
-                            maxlength="255"
-                        />
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="game_designer" class="form-label">Game Designer</label>
+                    <input type="text" class="form-control" id="game_designer" name="game_designer" maxlength="255" />
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label for="publisher" class="form-label"
-                            >Publisher</label
-                        >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="publisher"
-                            name="publisher"
-                            maxlength="255"
-                        />
-                    </div>
+                <div class="col-12 col-md-6">
+                    <label for="publisher" class="form-label">Publisher</label>
+                    <input type="text" class="form-control" id="publisher" name="publisher" maxlength="255" />
+                </div>
 
-                   
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Upload Image</label>
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <span class="btn btn-default btn-file">
-                                        Browse…
-                                        <input type="file" id="imgInp" />
-                                    </span>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Upload Image</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-default btn-file">
+                                    Browse…
+                                    <input type="file" id="imgInp" />
                                 </span>
-                                <input
-                                    type="text"
-                                    name="img"
-                                    class="form-control"
-                                    readonly
-                                />
-                            </div>
-                            <img id="img-upload" />
+                            </span>
+                            <input type="text" name="img" class="form-control" readonly />
                         </div>
-                    </div>
-
-                    <div class="col-12 col-md-6">
-                        <label for="game_image" class="form-label"
-                            >Game Image URL</label
-                        >
-                        <input
-                            type="url"
-                            class="form-control"
-                            id="game_image"
-                            name="game_image"
-                            maxlength="255"
-                            placeholder="https://..."
-                        />
-                    </div>
-
-                    <div class="col-12 col-md-6">
-                        <label for="game_website" class="form-label"
-                            >Game Website URL</label
-                        >
-                        <input
-                            type="url"
-                            class="form-control"
-                            id="game_website"
-                            name="game_website"
-                            maxlength="255"
-                            placeholder="https://..."
-                        />
-                    </div>
-
-                    <div class="col-12">
-                        <label for="mechanicSearchInput" class="form-label"
-                            >Game Mechanisms</label
-                        >
-                        <div id="mechanicPicker" class="position-relative">
-                            <div id="selectedMechanics" class="d-flex flex-wrap gap-2 mb-2"></div>
-                            <input
-                                type="search"
-                                class="form-control"
-                                id="mechanicSearchInput"
-                                placeholder="Search mechanics or create a new one"
-                                autocomplete="off"
-                            />
-                            <div
-                                id="mechanicDropdown"
-                                class="list-group position-absolute w-100 mt-1 shadow-sm d-none"
-                                style="z-index: 1050; max-height: 260px; overflow-y: auto"
-                            ></div>
-                            <input type="hidden" id="game_mechanisms" name="game_mechanisms" />
-                            <div class="form-text">
-                                Select existing mechanics, create missing mechanics, or delete mechanics from the list.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="themeSearchInput" class="form-label">Theme</label>
-                        <div id="themePicker" class="position-relative">
-                            <div id="selectedThemes" class="d-flex flex-wrap gap-2 mb-2"></div>
-                            <input
-                                type="search"
-                                class="form-control"
-                                id="themeSearchInput"
-                                placeholder="Search themes or create a new one"
-                                autocomplete="off"
-                            />
-                            <div
-                                id="themeDropdown"
-                                class="list-group position-absolute w-100 mt-1 shadow-sm d-none"
-                                style="z-index: 1050; max-height: 260px; overflow-y: auto"
-                            ></div>
-                            <input type="hidden" id="theme" name="theme" />
-                            <div class="form-text">
-                                Select existing themes, create missing themes, or delete themes from the list.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="tagSearchInput" class="form-label">Tags</label>
-                        <div id="tagPicker" class="position-relative">
-                            <div id="selectedTags" class="d-flex flex-wrap gap-2 mb-2"></div>
-                            <input
-                                type="search"
-                                class="form-control"
-                                id="tagSearchInput"
-                                placeholder="Search tags or create a new one"
-                                autocomplete="off"
-                            />
-                            <div
-                                id="tagDropdown"
-                                class="list-group position-absolute w-100 mt-1 shadow-sm d-none"
-                                style="z-index: 1050; max-height: 260px; overflow-y: auto"
-                            ></div>
-                            <input type="hidden" id="tags" name="tags" />
-                            <div class="form-text">
-                                Select existing tags, create missing tags, or delete tags from the list.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">
-                            Save Game
-                        </button>
+                        <img id="img-upload" />
                     </div>
                 </div>
-            </form>
-        </main>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-            crossorigin="anonymous"
-        ></script>
-        <script type="module" src="js/tags.js"></script>
-        <script type="module" src="js/mechanics.js"></script>
-        <script type="module" src="js/theme.js"></script>
-        <script type="module" src="js/add-game.js"></script>
-    </body>
+
+                <div class="col-12 col-md-6">
+                    <label for="game_image" class="form-label">Game Image URL</label>
+                    <input type="url" class="form-control" id="game_image" name="game_image" maxlength="255"
+                        placeholder="https://..." />
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label for="game_website" class="form-label">Game Website URL</label>
+                    <input type="url" class="form-control" id="game_website" name="game_website" maxlength="255"
+                        placeholder="https://..." />
+                </div>
+
+                <div class="col-12">
+                    <label for="mechanicSearchInput" class="form-label">Game Mechanics</label>
+                    <div id="mechanicPicker" class="position-relative">
+                        <div id="selectedMechanics" class="d-flex flex-wrap gap-2 mb-2"></div>
+                        <input type="search" class="form-control" id="mechanicSearchInput"
+                            placeholder="Search mechanics or create a new one" autocomplete="off" />
+                        <div id="mechanicDropdown" class="list-group position-absolute w-100 mt-1 shadow-sm d-none"
+                            style="z-index: 1050; max-height: 260px; overflow-y: auto"></div>
+                        <input type="hidden" id="game_mechanics" name="game_mechanics" />
+                        <div class="form-text">
+                            Select existing mechanics, create missing mechanics, or delete mechanics from the list.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="themeSearchInput" class="form-label">Theme</label>
+                    <div id="themePicker" class="position-relative">
+                        <div id="selectedThemes" class="d-flex flex-wrap gap-2 mb-2"></div>
+                        <input type="search" class="form-control" id="themeSearchInput"
+                            placeholder="Search themes or create a new one" autocomplete="off" />
+                        <div id="themeDropdown" class="list-group position-absolute w-100 mt-1 shadow-sm d-none"
+                            style="z-index: 1050; max-height: 260px; overflow-y: auto"></div>
+                        <input type="hidden" id="theme" name="theme" />
+                        <div class="form-text">
+                            Select existing themes, create missing themes, or delete themes from the list.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="tagSearchInput" class="form-label">Tags</label>
+                    <div id="tagPicker" class="position-relative">
+                        <div id="selectedTags" class="d-flex flex-wrap gap-2 mb-2"></div>
+                        <input type="search" class="form-control" id="tagSearchInput"
+                            placeholder="Search tags or create a new one" autocomplete="off" />
+                        <div id="tagDropdown" class="list-group position-absolute w-100 mt-1 shadow-sm d-none"
+                            style="z-index: 1050; max-height: 260px; overflow-y: auto"></div>
+                        <input type="hidden" id="tags" name="tags" />
+                        <div class="form-text">
+                            Select existing tags, create missing tags, or delete tags from the list.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        Save Game
+                    </button>
+                </div>
+            </div>
+        </form>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script type="module" src="js/tags.js"></script>
+    <script type="module" src="js/mechanics.js"></script>
+    <script type="module" src="js/theme.js"></script>
+    <script type="module" src="js/add-game.js"></script>
+</body>
+
 </html>

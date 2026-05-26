@@ -92,7 +92,7 @@ function buildGamePayload(formData, imagePath) {
 		web_url: String(formData.get('game_website') || '').trim() || null,
 		tags: parseIdArray(formData.get('tags')),
 		theme: parseIdArray(formData.get('theme')),
-		mechanics: parseIdArray(formData.get('game_mechanisms')),
+		mechanics: parseIdArray(formData.get('game_mechanics')),
 		image_path: imagePath || String(formData.get('game_image') || '').trim() || null
 	}
 

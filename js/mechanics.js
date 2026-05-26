@@ -9,7 +9,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 const mechanicSearchInput = document.getElementById('mechanicSearchInput')
 const mechanicDropdown = document.getElementById('mechanicDropdown')
 const selectedMechanicsContainer = document.getElementById('selectedMechanics')
-const mechanicsHiddenInput = document.getElementById('game_mechanisms')
+const mechanicsHiddenInput = document.getElementById('game_mechanics') || document.getElementById('game_mechanisms')
 const mechanicPicker = document.getElementById('mechanicPicker')
 
 if (!mechanicSearchInput || !mechanicDropdown || !selectedMechanicsContainer || !mechanicsHiddenInput || !mechanicPicker) {
