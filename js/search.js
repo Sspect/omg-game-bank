@@ -162,7 +162,12 @@ function renderGames() {
 		card.innerHTML = `
 			<div class="card h-100 shadow-sm game-card" ${imageUrl ? `style="background-image: url('${imageUrl}')"` : ''}>
 				<div class="card-body">
-					<h3 class="h5 card-title mb-3">${game.name || 'Unnamed game'}</h3>
+					<div class="game-card-title-row mb-3">
+						<h3 class="h5 card-title mb-0">${game.name || 'Unnamed game'}</h3>
+						<a class="edit-game-link" href="edit-game.html" aria-label="Edit ${game.name || 'game'}" title="Edit game">
+							<img src="svg/pencil-square.svg" alt="" width="18" height="18">
+						</a>
+					</div>
 					${details ? `<ul class="list-group list-group-flush">${details}</ul>` : '<p class="text-body-secondary mb-0">No extra fields selected.</p>'}
 				</div>
 			</div>

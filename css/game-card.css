@@ -22,8 +22,40 @@
             color: #fff;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            justify-content: flex-start;
             min-height: 300px;
+        }
+
+        .game-card-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .game-card .edit-game-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+            text-decoration: none;
+            flex-shrink: 0;
+            transition: background-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .game-card .edit-game-link:hover,
+        .game-card .edit-game-link:focus-visible {
+            background: rgba(255, 255, 255, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .game-card .edit-game-link img {
+            display: block;
+            filter: invert(1);
         }
 
         .game-card .list-group-item {
