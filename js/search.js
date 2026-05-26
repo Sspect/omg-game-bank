@@ -88,6 +88,24 @@ const DISPLAY_FIELDS = [
 		getValue: (game) => game.year_published
 	},
 	{
+		key: 'expansion',
+		label: 'Expansion',
+		getValue: (game) => {
+			if (game.expansion === true) {
+				return 'Yes'
+			}
+			if (game.expansion === false) {
+				return 'No'
+			}
+			return null
+		}
+	},
+	{
+		key: 'created_at',
+		label: 'Created At',
+		getValue: (game) => game.created_at
+	},
+	{
 		key: 'website',
 		label: 'Website',
 		getValue: (game) => game.web_url
@@ -128,6 +146,14 @@ function formatValue(field, value) {
 	if (field.key === 'website') {
 		const url = String(value)
 		return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+	}
+
+	if (field.key === 'created_at') {
+		const date = new Date(value)
+		if (Number.isNaN(date.getTime())) {
+			return String(value)
+		}
+		return date.toLocaleString()
 	}
 
 	return String(value)

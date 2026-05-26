@@ -3,7 +3,11 @@
 
 [image-preview bootstrap](https://stackoverflow.com/questions/34173254/bootstrap-file-upload-with-image-preview)
 
+[Boootstrap edit svg](https://icons.getbootstrap.com/icons/pencil-square/)
+
 [extract.pics](https://extract.pics/)
+
+[GitHub Pages](https://sspect.github.io/omg-game-bank/games.html)
 
 1. User selects image
 2. JavaScript uploads image to Supabase Storage bucket
