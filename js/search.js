@@ -373,7 +373,7 @@ function renderGames() {
 					<div class="game-card-title-row mb-3">
 						<h3 class="h5 card-title mb-0">${game.name || 'Unnamed game'}</h3>
 						<a class="edit-game-link" href="edit-game.html" aria-label="Edit ${game.name || 'game'}" title="Edit game">
-							<img src="svg/pencil-square.svg" alt="" width="18" height="18">
+							<img src="svg/icons/pencil-square.svg" alt="" width="18" height="18">
 						</a>
 					</div>
 					${descriptionBox}
