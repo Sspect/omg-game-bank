@@ -13,6 +13,10 @@
 
 [GitHub Pages](https://sspect.github.io/omg-game-bank/games.html)
 
+[OsloMet Game Bank Assistant](https://chatgpt.com/g/g-6a16004ed77081918f9f86b9266a938b-oslomet-game-bank-assistant)
+
+[Assistant video demo](https://www.youtube.com/watch?v=6iog8Ww8rqQ)
+
 1. User selects image
 2. JavaScript uploads image to Supabase Storage bucket
 3. Supabase returns file path
