@@ -10,6 +10,9 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 const form = document.getElementById('gameLibraryForm')
 const imageInput = document.getElementById('imgInp')
 const imageFileNameInput = document.querySelector('input[name="img"]')
+const imagePreview = document.getElementById('img-upload')
+
+let imagePreviewUrl = null
 
 if (!form) {
 	throw new Error('Form #gameLibraryForm not found in add-game.html')
@@ -40,6 +43,30 @@ function sanitizeFilename(fileName) {
 	return fileName.replace(/[^a-zA-Z0-9._-]/g, '_')
 }
 
+function clearImagePreview() {
+	if (imagePreviewUrl) {
+		URL.revokeObjectURL(imagePreviewUrl)
+		imagePreviewUrl = null
+	}
+
+	if (imagePreview) {
+		imagePreview.removeAttribute('src')
+		imagePreview.classList.add('d-none')
+	}
+}
+
+function updateImagePreview(file) {
+	clearImagePreview()
+
+	if (!imagePreview || !file || !file.type.startsWith('image/')) {
+		return
+	}
+
+	imagePreviewUrl = URL.createObjectURL(file)
+	imagePreview.src = imagePreviewUrl
+	imagePreview.classList.remove('d-none')
+}
+
 async function uploadImageIfSelected() {
 	if (!imageInput || !imageInput.files || !imageInput.files.length) {
 		return null
@@ -48,7 +75,7 @@ async function uploadImageIfSelected() {
 	const file = imageInput.files[0]
 	const timestamp = Date.now()
 	const safeFileName = sanitizeFilename(file.name)
-	const filePath = `games/${timestamp}-${safeFileName}`
+	const filePath = `game-card-image/${timestamp}-${safeFileName}`
 
 	const { data, error } = await supabase.storage
 		.from(IMAGE_BUCKET)
@@ -89,6 +116,7 @@ function buildGamePayload(formData, imagePath) {
 		language: String(formData.get('language') || '').trim() || null,
 		game_designer: String(formData.get('game_designer') || '').trim() || null,
 		publisher: String(formData.get('publisher') || '').trim() || null,
+		description: String(formData.get('description') || '').trim() || null,
 		web_url: String(formData.get('game_website') || '').trim() || null,
 		tags: parseIdArray(formData.get('tags')),
 		theme: parseIdArray(formData.get('theme')),
@@ -129,6 +157,8 @@ async function submitGame(event) {
 		if (imageFileNameInput) {
 			imageFileNameInput.value = ''
 		}
+
+		clearImagePreview()
 	} catch (error) {
 		console.error(error)
 		window.alert(error instanceof Error ? error.message : 'Failed to save game.')
@@ -142,8 +172,10 @@ async function submitGame(event) {
 
 if (imageInput && imageFileNameInput) {
 	imageInput.addEventListener('change', () => {
-		const fileName = imageInput.files && imageInput.files[0] ? imageInput.files[0].name : ''
+		const selectedFile = imageInput.files && imageInput.files[0] ? imageInput.files[0] : null
+		const fileName = selectedFile ? selectedFile.name : ''
 		imageFileNameInput.value = fileName
+		updateImagePreview(selectedFile)
 	})
 }
 

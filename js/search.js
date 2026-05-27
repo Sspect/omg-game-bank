@@ -5,6 +5,10 @@ const supabaseKey = 'sb_publishable_oLffRxc_yv8J4ZDTuSSPXw_wQtNye15'
 const supabase = createClient(supabaseUrl, supabaseKey)
 const publicBucketBaseUrl = `${supabaseUrl}/storage/v1/object/public/game-image/`
 
+const TAGS_TABLE = 'Tags'
+const THEME_TABLE = 'Theme'
+const MECHANICS_TABLE = 'Mechanics'
+
 const controlsContainer = document.getElementById('displayFieldControls')
 const gamesList = document.getElementById('gamesList')
 const selectAllButton = document.getElementById('selectAllDisplayFields')
@@ -12,6 +16,139 @@ const deselectAllButton = document.getElementById('deselectAllDisplayFields')
 
 if (!controlsContainer || !gamesList || !selectAllButton || !deselectAllButton) {
 	throw new Error('Required display settings elements are missing in games.html')
+}
+
+const relationLookupMaps = {
+	tags: new Map(),
+	theme: new Map(),
+	mechanics: new Map()
+}
+
+function toIdKey(value) {
+	const normalized = String(value ?? '').trim()
+	return normalized || null
+}
+
+function parseIdList(value) {
+	if (value === null || value === undefined) {
+		return []
+	}
+
+	let parsedValue = value
+
+	if (typeof parsedValue === 'string') {
+		const trimmed = parsedValue.trim()
+		if (!trimmed) {
+			return []
+		}
+
+		if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+			try {
+				parsedValue = JSON.parse(trimmed)
+			} catch {
+				parsedValue = trimmed
+			}
+		}
+	}
+
+	if (Array.isArray(parsedValue)) {
+		return parsedValue
+			.map((item) => toIdKey(item))
+			.filter(Boolean)
+	}
+
+	if (typeof parsedValue === 'string') {
+		return parsedValue
+			.split(',')
+			.map((item) => toIdKey(item))
+			.filter(Boolean)
+	}
+
+	const single = toIdKey(parsedValue)
+	return single ? [single] : []
+}
+
+function getFirstAvailableColumn(rows, candidates, valuePredicate) {
+	for (const candidate of candidates) {
+		if (rows.some((row) => valuePredicate(row?.[candidate]))) {
+			return candidate
+		}
+	}
+	return null
+}
+
+function buildRelationLookupMap(rows, idCandidates, nameCandidates) {
+	const lookup = new Map()
+	const safeRows = Array.isArray(rows) ? rows : []
+
+	const idColumn = getFirstAvailableColumn(
+		safeRows,
+		idCandidates,
+		(value) => value !== null && value !== undefined && String(value).trim() !== ''
+	)
+	const nameColumn = getFirstAvailableColumn(
+		safeRows,
+		nameCandidates,
+		(value) => typeof value === 'string' && value.trim() !== ''
+	)
+
+	if (!idColumn || !nameColumn) {
+		return lookup
+	}
+
+	safeRows.forEach((row) => {
+		const idKey = toIdKey(row?.[idColumn])
+		const nameValue = String(row?.[nameColumn] ?? '').trim()
+		if (idKey && nameValue) {
+			lookup.set(idKey, nameValue)
+		}
+	})
+
+	return lookup
+}
+
+function formatRelationValues(value, lookupMap) {
+	const ids = parseIdList(value)
+	if (!ids.length) {
+		return null
+	}
+
+	const names = ids.map((id) => lookupMap.get(id) || id)
+	return names.join(', ')
+}
+
+async function loadRelationLookupMaps() {
+	const [tagsResult, themeResult, mechanicsResult] = await Promise.all([
+		supabase.from(TAGS_TABLE).select('*'),
+		supabase.from(THEME_TABLE).select('*'),
+		supabase.from(MECHANICS_TABLE).select('*')
+	])
+
+	if (tagsResult.error) {
+		console.error('Error loading tag lookup table:', tagsResult.error)
+	}
+	if (themeResult.error) {
+		console.error('Error loading theme lookup table:', themeResult.error)
+	}
+	if (mechanicsResult.error) {
+		console.error('Error loading mechanics lookup table:', mechanicsResult.error)
+	}
+
+	relationLookupMaps.tags = buildRelationLookupMap(
+		tagsResult.data,
+		['id', 'tag_id', 'uuid'],
+		['name', 'tag', 'tag_name', 'title', 'label']
+	)
+	relationLookupMaps.theme = buildRelationLookupMap(
+		themeResult.data,
+		['id', 'theme_id', 'uuid'],
+		['name', 'theme', 'theme_name', 'title', 'label']
+	)
+	relationLookupMaps.mechanics = buildRelationLookupMap(
+		mechanicsResult.data,
+		['id', 'mechanic_id', 'uuid'],
+		['name', 'mechanic', 'mechanic_name', 'title', 'label']
+	)
 }
 
 function formatKnownRange(minValue, maxValue, minLabel, maxLabel) {
@@ -76,6 +213,26 @@ const DISPLAY_FIELDS = [
 		key: 'publisher',
 		label: 'Publisher',
 		getValue: (game) => game.publisher
+	},
+	{
+		key: 'description',
+		label: 'Description',
+		getValue: (game) => game.description ?? game.game_description
+	},
+	{
+		key: 'tags',
+		label: 'Tags',
+		getValue: (game) => formatRelationValues(game.tags, relationLookupMaps.tags)
+	},
+	{
+		key: 'theme',
+		label: 'Theme',
+		getValue: (game) => formatRelationValues(game.theme, relationLookupMaps.theme)
+	},
+	{
+		key: 'mechanics',
+		label: 'Mechanics',
+		getValue: (game) => formatRelationValues(game.mechanics, relationLookupMaps.mechanics)
 	},
 	{
 		key: 'language',
@@ -159,6 +316,23 @@ function formatValue(field, value) {
 	return String(value)
 }
 
+function escapeHtml(value) {
+	return String(value)
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#39;')
+}
+
+function formatDescriptionHtml(value) {
+	if (value === null || value === undefined || value === '') {
+		return null
+	}
+
+	return escapeHtml(value).replace(/\r?\n/g, '<br>')
+}
+
 function renderGames() {
 	gamesList.innerHTML = ''
 
@@ -172,9 +346,17 @@ function renderGames() {
 		card.className = 'col-12 col-md-6 col-xl-4'
 		const imageEnabled = selectedFields.has('image')
 		const imageUrl = imageEnabled ? toPublicImageUrl(game.image_path) : ''
+		const descriptionField = DISPLAY_FIELDS.find((field) => field.key === 'description')
+		const descriptionEnabled = selectedFields.has('description')
+		const descriptionValue = descriptionField && descriptionEnabled
+			? formatDescriptionHtml(descriptionField.getValue(game))
+			: null
+		const descriptionBox = descriptionValue
+			? `<div class="mb-3 p-3 border rounded bg-body-tertiary"><strong>Description</strong><p class="mb-0 mt-2">${descriptionValue}</p></div>`
+			: ''
 
 		const details = DISPLAY_FIELDS
-			.filter((field) => selectedFields.has(field.key) && field.key !== 'image')
+			.filter((field) => selectedFields.has(field.key) && field.key !== 'image' && field.key !== 'description')
 			.map((field) => {
 				const formatted = formatValue(field, field.getValue(game))
 				if (!formatted) {
@@ -194,6 +376,7 @@ function renderGames() {
 							<img src="svg/pencil-square.svg" alt="" width="18" height="18">
 						</a>
 					</div>
+					${descriptionBox}
 					${details ? `<ul class="list-group list-group-flush">${details}</ul>` : '<p class="text-body-secondary mb-0">No extra fields selected.</p>'}
 				</div>
 			</div>
@@ -256,6 +439,8 @@ function deselectAllDisplayFields() {
 }
 
 async function loadGames() {
+	await loadRelationLookupMaps()
+
 	const { data, error } = await supabase
 		.from('Game')
 		.select('*')
