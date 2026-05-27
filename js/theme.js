@@ -20,6 +20,7 @@ let allThemes = []
 let selectedThemes = []
 let detectedNameColumn = null
 let detectedIdColumn = null
+let pendingPrefillThemeIds = []
 
 function normalizeTheme(value) {
 	return String(value ?? '').trim()
@@ -27,6 +28,28 @@ function normalizeTheme(value) {
 
 function normalizeThemeKey(value) {
 	return normalizeTheme(value).toLowerCase()
+}
+
+function normalizeIdList(value) {
+	if (Array.isArray(value)) {
+		return value
+			.map((id) => Number(id))
+			.filter((id) => Number.isInteger(id))
+	}
+
+	if (typeof value === 'string') {
+		const trimmed = value.trim()
+		if (!trimmed) {
+			return []
+		}
+
+		return trimmed
+			.split(',')
+			.map((id) => Number(id.trim()))
+			.filter((id) => Number.isInteger(id))
+	}
+
+	return []
 }
 
 function getCandidateNameColumns() {
@@ -104,6 +127,18 @@ function renderSelectedThemes() {
 	updateHiddenInput()
 }
 
+function applyPrefillIfReady() {
+	if (!pendingPrefillThemeIds.length || !allThemes.length) {
+		return
+	}
+
+	const pendingIds = new Set(pendingPrefillThemeIds)
+	selectedThemes = allThemes.filter((theme) => pendingIds.has(Number(theme.id)))
+	pendingPrefillThemeIds = []
+	renderSelectedThemes()
+	renderDropdown(themeSearchInput.value)
+}
+
 function openDropdown() {
 	themeDropdown.classList.remove('d-none')
 }
@@ -156,6 +191,7 @@ async function loadThemes() {
 		})
 		.sort((a, b) => a.name.localeCompare(b.name))
 
+	applyPrefillIfReady()
 	renderDropdown(themeSearchInput.value)
 }
 
@@ -369,8 +405,15 @@ document.addEventListener('click', (event) => {
 
 const form = document.getElementById('gameLibraryForm')
 if (form) {
+	form.addEventListener('picker:prefill', (event) => {
+		const detail = event instanceof CustomEvent ? event.detail : null
+		pendingPrefillThemeIds = normalizeIdList(detail?.theme)
+		applyPrefillIfReady()
+	})
+
 	form.addEventListener('picker:clear', () => {
 		selectedThemes = []
+		pendingPrefillThemeIds = []
 		renderSelectedThemes()
 		themeSearchInput.value = ''
 		renderDropdown('')

@@ -20,6 +20,7 @@ let allMechanics = []
 let selectedMechanics = []
 let detectedNameColumn = null
 let detectedIdColumn = null
+let pendingPrefillMechanicIds = []
 
 function normalizeMechanic(value) {
 	return String(value ?? '').trim()
@@ -27,6 +28,28 @@ function normalizeMechanic(value) {
 
 function normalizeMechanicKey(value) {
 	return normalizeMechanic(value).toLowerCase()
+}
+
+function normalizeIdList(value) {
+	if (Array.isArray(value)) {
+		return value
+			.map((id) => Number(id))
+			.filter((id) => Number.isInteger(id))
+	}
+
+	if (typeof value === 'string') {
+		const trimmed = value.trim()
+		if (!trimmed) {
+			return []
+		}
+
+		return trimmed
+			.split(',')
+			.map((id) => Number(id.trim()))
+			.filter((id) => Number.isInteger(id))
+	}
+
+	return []
 }
 
 function getCandidateNameColumns() {
@@ -104,6 +127,18 @@ function renderSelectedMechanics() {
 	updateHiddenInput()
 }
 
+function applyPrefillIfReady() {
+	if (!pendingPrefillMechanicIds.length || !allMechanics.length) {
+		return
+	}
+
+	const pendingIds = new Set(pendingPrefillMechanicIds)
+	selectedMechanics = allMechanics.filter((mechanic) => pendingIds.has(Number(mechanic.id)))
+	pendingPrefillMechanicIds = []
+	renderSelectedMechanics()
+	renderDropdown(mechanicSearchInput.value)
+}
+
 function openDropdown() {
 	mechanicDropdown.classList.remove('d-none')
 }
@@ -156,6 +191,7 @@ async function loadMechanics() {
 		})
 		.sort((a, b) => a.name.localeCompare(b.name))
 
+	applyPrefillIfReady()
 	renderDropdown(mechanicSearchInput.value)
 }
 
@@ -369,8 +405,15 @@ document.addEventListener('click', (event) => {
 
 const form = document.getElementById('gameLibraryForm')
 if (form) {
+	form.addEventListener('picker:prefill', (event) => {
+		const detail = event instanceof CustomEvent ? event.detail : null
+		pendingPrefillMechanicIds = normalizeIdList(detail?.mechanics)
+		applyPrefillIfReady()
+	})
+
 	form.addEventListener('picker:clear', () => {
 		selectedMechanics = []
+		pendingPrefillMechanicIds = []
 		renderSelectedMechanics()
 		mechanicSearchInput.value = ''
 		renderDropdown('')

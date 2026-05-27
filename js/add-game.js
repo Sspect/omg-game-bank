@@ -1,130 +1,56 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import {
+	buildGamePayload,
+	CARD_IMAGE_PATH_PREFIX,
+	clearImagePreview,
+	BOX_IMAGE_PATH_PREFIX,
+	GAME_TABLE,
+	uploadImageIfSelected,
+	updateImagePreview
+} from './game-form-utils.js'
 
 const supabaseUrl = 'https://pedtyonlklzbyikiywru.supabase.co'
 const supabaseKey = 'sb_publishable_oLffRxc_yv8J4ZDTuSSPXw_wQtNye15'
-const GAME_TABLE = 'Game'
-const IMAGE_BUCKET = 'game-image'
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 const form = document.getElementById('gameLibraryForm')
-const imageInput = document.getElementById('imgInp')
-const imageFileNameInput = document.querySelector('input[name="img"]')
-const imagePreview = document.getElementById('img-upload')
+const cardImageInput = document.getElementById('cardImgInp')
+const cardImageFileNameInput = document.querySelector('input[name="card_img"]')
+const cardImagePreview = document.getElementById('card-img-upload')
+const boxImageInput = document.getElementById('boxImgInp')
+const boxImageFileNameInput = document.querySelector('input[name="box_img"]')
+const boxImagePreview = document.getElementById('box-img-upload')
 
-let imagePreviewUrl = null
+let cardImagePreviewUrl = null
+let boxImagePreviewUrl = null
+const cardImagePreviewState = {
+	get value() {
+		return cardImagePreviewUrl
+	},
+	set value(newValue) {
+		cardImagePreviewUrl = newValue
+	}
+}
+const boxImagePreviewState = {
+	get value() {
+		return boxImagePreviewUrl
+	},
+	set value(newValue) {
+		boxImagePreviewUrl = newValue
+	}
+}
 
 if (!form) {
 	throw new Error('Form #gameLibraryForm not found in add-game.html')
 }
 
-function parseNumber(value) {
-	if (value === null || value === undefined || value === '') {
-		return null
-	}
-
-	const parsed = Number(value)
-	return Number.isFinite(parsed) ? parsed : null
+async function uploadCardImageIfSelected() {
+	return uploadImageIfSelected(supabase, cardImageInput, CARD_IMAGE_PATH_PREFIX, 'Card image')
 }
 
-function parseInteger(value) {
-	const parsed = parseNumber(value)
-	return parsed === null ? null : Math.trunc(parsed)
-}
-
-function parseIdArray(csvValue) {
-	return String(csvValue || '')
-		.split(',')
-		.map((value) => Number(value.trim()))
-		.filter((value) => Number.isInteger(value))
-}
-
-function sanitizeFilename(fileName) {
-	return fileName.replace(/[^a-zA-Z0-9._-]/g, '_')
-}
-
-function clearImagePreview() {
-	if (imagePreviewUrl) {
-		URL.revokeObjectURL(imagePreviewUrl)
-		imagePreviewUrl = null
-	}
-
-	if (imagePreview) {
-		imagePreview.removeAttribute('src')
-		imagePreview.classList.add('d-none')
-	}
-}
-
-function updateImagePreview(file) {
-	clearImagePreview()
-
-	if (!imagePreview || !file || !file.type.startsWith('image/')) {
-		return
-	}
-
-	imagePreviewUrl = URL.createObjectURL(file)
-	imagePreview.src = imagePreviewUrl
-	imagePreview.classList.remove('d-none')
-}
-
-async function uploadImageIfSelected() {
-	if (!imageInput || !imageInput.files || !imageInput.files.length) {
-		return null
-	}
-
-	const file = imageInput.files[0]
-	const timestamp = Date.now()
-	const safeFileName = sanitizeFilename(file.name)
-	const filePath = `game-card-image/${timestamp}-${safeFileName}`
-
-	const { data, error } = await supabase.storage
-		.from(IMAGE_BUCKET)
-		.upload(filePath, file, {
-			upsert: false,
-			contentType: file.type || 'application/octet-stream'
-		})
-
-	if (error) {
-		throw new Error(`Image upload failed: ${error.message}`)
-	}
-
-	return data.path
-}
-
-function buildGamePayload(formData, imagePath) {
-	const expansionValue = String(formData.get('expansion_or_base') || '')
-	let expansion = null
-	if (expansionValue === 'Expansion') {
-		expansion = true
-	}
-	if (expansionValue === 'Base Game') {
-		expansion = false
-	}
-
-	const payload = {
-		name: String(formData.get('name') || '').trim(),
-		players_min: parseInteger(formData.get('players_min')),
-		players_max: parseInteger(formData.get('players_max')),
-		owner: String(formData.get('owner') || '').trim() || null,
-		hours_min: parseNumber(formData.get('game_hours_min')),
-		hours_max: parseNumber(formData.get('game_hours_max')),
-		year_published: parseInteger(formData.get('year_published')),
-		game_complexity: String(formData.get('game_complexity') || '').trim() || null,
-		recommended_age: parseInteger(formData.get('recommended_age')),
-		expansion,
-		condition: String(formData.get('condition_status') || '').trim() || null,
-		language: String(formData.get('language') || '').trim() || null,
-		game_designer: String(formData.get('game_designer') || '').trim() || null,
-		publisher: String(formData.get('publisher') || '').trim() || null,
-		description: String(formData.get('description') || '').trim() || null,
-		web_url: String(formData.get('game_website') || '').trim() || null,
-		tags: parseIdArray(formData.get('tags')),
-		theme: parseIdArray(formData.get('theme')),
-		mechanics: parseIdArray(formData.get('game_mechanics')),
-		image_path: imagePath || null
-	}
-
-	return payload
+async function uploadBoxImageIfSelected() {
+	return uploadImageIfSelected(supabase, boxImageInput, BOX_IMAGE_PATH_PREFIX, 'Box image')
 }
 
 async function submitGame(event) {
@@ -138,8 +64,9 @@ async function submitGame(event) {
 
 	try {
 		const formData = new FormData(form)
-		const imagePath = await uploadImageIfSelected()
-		const payload = buildGamePayload(formData, imagePath)
+		const cardImagePath = await uploadCardImageIfSelected()
+		const boxImagePath = await uploadBoxImageIfSelected()
+		const payload = buildGamePayload(formData, cardImagePath, boxImagePath)
 
 		const { error } = await supabase
 			.from(GAME_TABLE)
@@ -154,11 +81,16 @@ async function submitGame(event) {
 		form.dispatchEvent(new CustomEvent('picker:clear'))
 
 		// Clear file name mirror input after successful reset.
-		if (imageFileNameInput) {
-			imageFileNameInput.value = ''
+		if (cardImageFileNameInput) {
+			cardImageFileNameInput.value = ''
 		}
 
-		clearImagePreview()
+		if (boxImageFileNameInput) {
+			boxImageFileNameInput.value = ''
+		}
+
+		clearImagePreview(cardImagePreview, cardImagePreviewState)
+		clearImagePreview(boxImagePreview, boxImagePreviewState)
 	} catch (error) {
 		console.error(error)
 		window.alert(error instanceof Error ? error.message : 'Failed to save game.')
@@ -170,12 +102,21 @@ async function submitGame(event) {
 	}
 }
 
-if (imageInput && imageFileNameInput) {
-	imageInput.addEventListener('change', () => {
-		const selectedFile = imageInput.files && imageInput.files[0] ? imageInput.files[0] : null
+if (cardImageInput && cardImageFileNameInput) {
+	cardImageInput.addEventListener('change', () => {
+		const selectedFile = cardImageInput.files && cardImageInput.files[0] ? cardImageInput.files[0] : null
 		const fileName = selectedFile ? selectedFile.name : ''
-		imageFileNameInput.value = fileName
-		updateImagePreview(selectedFile)
+		cardImageFileNameInput.value = fileName
+		updateImagePreview(selectedFile, cardImagePreview, cardImagePreviewState)
+	})
+}
+
+if (boxImageInput && boxImageFileNameInput) {
+	boxImageInput.addEventListener('change', () => {
+		const selectedFile = boxImageInput.files && boxImageInput.files[0] ? boxImageInput.files[0] : null
+		const fileName = selectedFile ? selectedFile.name : ''
+		boxImageFileNameInput.value = fileName
+		updateImagePreview(selectedFile, boxImagePreview, boxImagePreviewState)
 	})
 }
 

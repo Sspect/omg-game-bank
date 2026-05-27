@@ -20,6 +20,7 @@ let allTags = []
 let selectedTags = []
 let detectedNameColumn = null
 let detectedIdColumn = null
+let pendingPrefillTagIds = []
 
 function normalizeTag(value) {
 	return String(value ?? '').trim()
@@ -27,6 +28,28 @@ function normalizeTag(value) {
 
 function normalizeTagKey(value) {
 	return normalizeTag(value).toLowerCase()
+}
+
+function normalizeIdList(value) {
+	if (Array.isArray(value)) {
+		return value
+			.map((id) => Number(id))
+			.filter((id) => Number.isInteger(id))
+	}
+
+	if (typeof value === 'string') {
+		const trimmed = value.trim()
+		if (!trimmed) {
+			return []
+		}
+
+		return trimmed
+			.split(',')
+			.map((id) => Number(id.trim()))
+			.filter((id) => Number.isInteger(id))
+	}
+
+	return []
 }
 
 function getCandidateNameColumns() {
@@ -104,6 +127,18 @@ function renderSelectedTags() {
 	updateHiddenInput()
 }
 
+function applyPrefillIfReady() {
+	if (!pendingPrefillTagIds.length || !allTags.length) {
+		return
+	}
+
+	const pendingIds = new Set(pendingPrefillTagIds)
+	selectedTags = allTags.filter((tag) => pendingIds.has(Number(tag.id)))
+	pendingPrefillTagIds = []
+	renderSelectedTags()
+	renderDropdown(tagSearchInput.value)
+}
+
 function openDropdown() {
 	tagDropdown.classList.remove('d-none')
 }
@@ -156,6 +191,7 @@ async function loadTags() {
 		})
 		.sort((a, b) => a.name.localeCompare(b.name))
 
+	applyPrefillIfReady()
 	renderDropdown(tagSearchInput.value)
 }
 
@@ -369,8 +405,15 @@ document.addEventListener('click', (event) => {
 
 const form = document.getElementById('gameLibraryForm')
 if (form) {
+	form.addEventListener('picker:prefill', (event) => {
+		const detail = event instanceof CustomEvent ? event.detail : null
+		pendingPrefillTagIds = normalizeIdList(detail?.tags)
+		applyPrefillIfReady()
+	})
+
 	form.addEventListener('picker:clear', () => {
 		selectedTags = []
+		pendingPrefillTagIds = []
 		renderSelectedTags()
 		tagSearchInput.value = ''
 		renderDropdown('')

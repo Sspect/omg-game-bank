@@ -270,7 +270,7 @@ const DISPLAY_FIELDS = [
 	{
 		key: 'image',
 		label: 'Image',
-		getValue: (game) => game.image_path
+		getValue: (game) => game.card_image_path
 	}
 ]
 
@@ -345,7 +345,7 @@ function renderGames() {
 		const card = document.createElement('article')
 		card.className = 'col-12 col-md-6 col-xl-4'
 		const imageEnabled = selectedFields.has('image')
-		const imageUrl = imageEnabled ? toPublicImageUrl(game.image_path) : ''
+		const imageUrl = imageEnabled ? toPublicImageUrl(game.card_image_path) : ''
 		const descriptionField = DISPLAY_FIELDS.find((field) => field.key === 'description')
 		const descriptionEnabled = selectedFields.has('description')
 		const descriptionValue = descriptionField && descriptionEnabled
@@ -367,12 +367,16 @@ function renderGames() {
 			.filter(Boolean)
 			.join('')
 
+		const editHref = Number.isInteger(game.id)
+			? `edit-game.html?id=${encodeURIComponent(game.id)}`
+			: 'edit-game.html'
+
 		card.innerHTML = `
 			<div class="card h-100 shadow-sm game-card" ${imageUrl ? `style="background-image: url('${imageUrl}')"` : ''}>
 				<div class="card-body">
 					<div class="game-card-title-row mb-3">
 						<h3 class="h5 card-title mb-0">${game.name || 'Unnamed game'}</h3>
-						<a class="edit-game-link" href="edit-game.html" aria-label="Edit ${game.name || 'game'}" title="Edit game">
+						<a class="edit-game-link" href="${editHref}" aria-label="Edit ${game.name || 'game'}" title="Edit game">
 							<img src="svg/icons/pencil-square.svg" alt="" width="18" height="18">
 						</a>
 					</div>

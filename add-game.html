@@ -188,31 +188,54 @@
                         placeholder="Write a short description of the game"
                     ></textarea>
                 </div>
-                <div class="col-12 col-md-6">
-                    <label for="game_website" class="form-label">Game Website URL</label>
-                    <input type="url" class="form-control" id="game_website" name="game_website" maxlength="255"
-                        placeholder="https://..." />
-                </div>
+                
 
                 <div class="col-md-6">
                     <div class="form-group upload-panel h-100">
-                        <label for="imgInp" class="form-label">Upload Image</label>
+                        <label for="cardImgInp" class="form-label">Upload Card Image</label>
                         <div class="input-group">
                             <span class="input-group-btn">
                                 <span class="btn btn-outline-secondary btn-file">
                                     Choose File
-                                    <input type="file" id="imgInp" accept="image/*" />
+                                    <input type="file" id="cardImgInp" accept="image/*" />
                                 </span>
                             </span>
-                            <input type="text" name="img" class="form-control" placeholder="No file selected" readonly />
+                            <input type="text" name="card_img" class="form-control" placeholder="No file selected" readonly />
                         </div>
                         <img
-                            id="img-upload"
+                            id="card-img-upload"
                             class="img-fluid rounded border mt-3 d-none"
-                            alt="Selected game image preview"
+                            alt="Selected game card image preview"
                             style="max-height: 240px; object-fit: contain;"
                         />
                     </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group upload-panel h-100">
+                        <label for="boxImgInp" class="form-label">Upload Box Image</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-outline-secondary btn-file">
+                                    Choose File
+                                    <input type="file" id="boxImgInp" accept="image/*" />
+                                </span>
+                            </span>
+                            <input type="text" name="box_img" class="form-control" placeholder="No file selected" readonly />
+                        </div>
+                        <img
+                            id="box-img-upload"
+                            class="img-fluid rounded border mt-3 d-none"
+                            alt="Selected game box image preview"
+                            style="max-height: 240px; object-fit: contain;"
+                        />
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label for="game_website" class="form-label">Game Website URL</label>
+                    <input type="url" class="form-control" id="game_website" name="game_website" maxlength="255"
+                        placeholder="https://..." />
                 </div>
 
                 <div class="col-12 col-md-6">
