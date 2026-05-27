@@ -121,7 +121,7 @@ function buildGamePayload(formData, imagePath) {
 		tags: parseIdArray(formData.get('tags')),
 		theme: parseIdArray(formData.get('theme')),
 		mechanics: parseIdArray(formData.get('game_mechanics')),
-		image_path: imagePath || String(formData.get('game_image') || '').trim() || null
+		image_path: imagePath || null
 	}
 
 	return payload
