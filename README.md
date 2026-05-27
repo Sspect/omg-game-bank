@@ -18,3 +18,11 @@
 3. Supabase returns file path
 4. Insert game row with image_path
 5. Display image using public URL
+
+som games for testing:
+Ticket to Ride: Europe
+here to slay
+happy little dinosaurs
+unstable unicorns
+a place for all my books
+stardew valley the board game 
