@@ -260,9 +260,9 @@ const DISPLAY_FIELDS = [
 		getValue: (game) => game.created_at
 	},
 	{
-		key: 'website',
-		label: 'Website',
-		getValue: (game) => game.web_url
+		key: 'more_info',
+		label: 'More Info',
+		getValue: (game) => game.more_info
 	},
 	{
 		key: 'image',
@@ -297,9 +297,9 @@ function formatValue(field, value) {
 		return null
 	}
 
-	if (field.key === 'website') {
+	if (field.key === 'more_info') {
 		const url = String(value)
-		return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+		return `<a href="${url}" target="_blank" rel="noopener noreferrer">${new URL(url).hostname.replace('www.', '')}</a>`;
 	}
 
 	if (field.key === 'created_at') {

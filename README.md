@@ -36,7 +36,6 @@ stardew valley the board game
 
 
 todo:
-rename web_url to more_info
 
 game time from houers to minutes
 

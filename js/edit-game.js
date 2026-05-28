@@ -147,7 +147,7 @@ function populateForm(existingRow) {
 	setInputValue('game_designer', existingRow.game_designer)
 	setInputValue('publisher', existingRow.publisher)
 	setInputValue('description', existingRow.description)
-	setInputValue('game_website', existingRow.web_url)
+	setInputValue('game_more_info', existingRow.more_info)
 
 	const tags = normalizeIdList(existingRow.tags)
 	const theme = normalizeIdList(existingRow.theme)

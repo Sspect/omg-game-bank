@@ -111,7 +111,7 @@ export function buildGamePayload(formData, cardImagePath, boxImagePath) {
 		game_designer: String(formData.get('game_designer') || '').trim() || null,
 		publisher: String(formData.get('publisher') || '').trim() || null,
 		description: String(formData.get('description') || '').trim() || null,
-		web_url: String(formData.get('game_website') || '').trim() || null,
+		more_info: String(formData.get('game_more_info') || '').trim() || null,
 		tags: parseIdArray(formData.get('tags')),
 		theme: parseIdArray(formData.get('theme')),
 		mechanics: parseIdArray(formData.get('game_mechanics')),
