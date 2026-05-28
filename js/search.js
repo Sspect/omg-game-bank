@@ -248,9 +248,14 @@ const DISPLAY_FIELDS = [
 		getValue: (game) => game.cost
 	},
 	{
-		key: 'expansion',
+		key: 'exspantion',
 		label: 'Expansion',
 		getValue: (game) => {
+			const textValue = String(game.exspantion ?? '').trim()
+			if (textValue) {
+				return textValue
+			}
+
 			if (game.expansion === true) {
 				return 'Yes'
 			}

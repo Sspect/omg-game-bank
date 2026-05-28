@@ -108,13 +108,15 @@
 
                 <div class="col-12 col-md-6">
                     <label for="expansion_or_base" class="form-label">Expansion or Base *</label>
-                    <select class="form-select" id="expansion_or_base" name="expansion_or_base" required>
-                        <option value="" selected disabled>
-                            Choose type
-                        </option>
-                        <option value="Base Game">Base Game</option>
-                        <option value="Expansion">Expansion</option>
-                    </select>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="expansion_or_base"
+                        name="expansion_or_base"
+                        maxlength="255"
+                        value="Does not have any expansions"
+                        required
+                    />
                 </div>
 
                 <div class="col-12 col-md-6">

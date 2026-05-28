@@ -87,13 +87,18 @@ function setInputValue(inputId, value) {
 	input.value = value ?? ''
 }
 
-function setExpansionValue(expansion) {
-	if (expansion === true) {
+function setExpansionValue(expansionValue) {
+	if (typeof expansionValue === 'string') {
+		setInputValue('expansion_or_base', expansionValue)
+		return
+	}
+
+	if (expansionValue === true) {
 		setInputValue('expansion_or_base', 'Expansion')
 		return
 	}
 
-	if (expansion === false) {
+	if (expansionValue === false) {
 		setInputValue('expansion_or_base', 'Base Game')
 		return
 	}
@@ -142,7 +147,7 @@ function populateForm(existingRow) {
 	setInputValue('cost', existingRow.cost)
 	setInputValue('game_complexity', existingRow.game_complexity)
 	setInputValue('recommended_age', existingRow.recommended_age)
-	setExpansionValue(existingRow.expansion)
+	setExpansionValue(existingRow.exspantion ?? existingRow.expansion)
 	setInputValue('condition_status', existingRow.condition)
 	setInputValue('language', existingRow.language)
 	setInputValue('game_designer', existingRow.game_designer)
