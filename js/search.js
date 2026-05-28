@@ -183,12 +183,12 @@ const DISPLAY_FIELDS = [
 		}
 	},
 	{
-		key: 'hours',
-		label: 'Hours',
+		key: 'time',
+		label: 'Play Time (min)',
 		getValue: (game) => {
-			const min = game.hours_min
-			const max = game.hours_max
-			return formatKnownRange(min, max, 'Minimum play time', 'Maximum play time')
+			const min = game.time_min
+			const max = game.time_max
+			return formatKnownRange(min, max, 'Minimum play time (min)', 'Maximum play time (min)')
 		}
 	},
 	{

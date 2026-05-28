@@ -37,8 +37,6 @@ stardew valley the board game
 
 todo:
 
-game time from houers to minutes
-
 add cost
 
 expansion bool to string
