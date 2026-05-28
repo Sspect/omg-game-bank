@@ -1,8 +1,5 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { supabase, supabaseUrl } from './supabase.js'
 
-const supabaseUrl = 'https://pedtyonlklzbyikiywru.supabase.co'
-const supabaseKey = 'sb_publishable_oLffRxc_yv8J4ZDTuSSPXw_wQtNye15'
-const supabase = createClient(supabaseUrl, supabaseKey)
 const publicBucketBaseUrl = `${supabaseUrl}/storage/v1/object/public/game-image/`
 
 const TAGS_TABLE = 'Tags'

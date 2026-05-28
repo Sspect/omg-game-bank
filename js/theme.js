@@ -1,10 +1,6 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { supabase } from './supabase.js'
 
-const supabaseUrl = 'https://pedtyonlklzbyikiywru.supabase.co'
-const supabaseKey = 'sb_publishable_oLffRxc_yv8J4ZDTuSSPXw_wQtNye15'
 const THEME_TABLE = 'Theme'
-
-const supabase = createClient(supabaseUrl, supabaseKey)
 
 const themeSearchInput = document.getElementById('themeSearchInput')
 const themeDropdown = document.getElementById('themeDropdown')

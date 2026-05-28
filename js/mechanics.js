@@ -1,10 +1,6 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { supabase } from './supabase.js'
 
-const supabaseUrl = 'https://pedtyonlklzbyikiywru.supabase.co'
-const supabaseKey = 'sb_publishable_oLffRxc_yv8J4ZDTuSSPXw_wQtNye15'
 const MECHANICS_TABLE = 'Mechanics'
-
-const supabase = createClient(supabaseUrl, supabaseKey)
 
 const mechanicSearchInput = document.getElementById('mechanicSearchInput')
 const mechanicDropdown = document.getElementById('mechanicDropdown')
