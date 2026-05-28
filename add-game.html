@@ -30,6 +30,7 @@
 </head>
 
 <script src="js/load-components.js"></script>
+
 <body>
     <div id="header-container"></div>
 
@@ -79,25 +80,14 @@
 
                 <div class="col-12 col-md-6">
                     <label for="cost" class="form-label">Cost</label>
-                    <input
-                        type="number"
-                        class="form-control"
-                        id="cost"
-                        name="cost"
-                        min="0"
-                        step="0.01"
-                        placeholder="e.g. 349.90"
-                    />
+                    <input type="number" class="form-control" id="cost" name="cost" min="0" step="0.01"
+                        placeholder="e.g. 349.90" />
                 </div>
 
                 <div class="col-12 col-md-6">
                     <label for="game_complexity" class="form-label">Game Complexity</label>
-                    <select class="form-select" id="game_complexity" name="game_complexity">
-                        <option value="" selected>Choose complexity</option>
-                        <option value="Light">Light</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Heavy">Heavy</option>
-                    </select>
+                    <input type="text" class="form-control" id="game_complexity" name="game_complexity" maxlength="255"
+                        placeholder="e.g. Light, Medium, Heavy" />
                 </div>
 
                 <div class="col-12 col-md-6">
@@ -108,15 +98,8 @@
 
                 <div class="col-12 col-md-6">
                     <label for="expansion_or_base" class="form-label">Expansion or Base *</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="expansion_or_base"
-                        name="expansion_or_base"
-                        maxlength="255"
-                        value="Does not have any expansions"
-                        required
-                    />
+                    <input type="text" class="form-control" id="expansion_or_base" name="expansion_or_base"
+                        maxlength="255" value="Does not have any expansions" required />
                 </div>
 
                 <div class="col-12 col-md-6">
@@ -152,16 +135,10 @@
 
                 <div class="col-12">
                     <label for="description" class="form-label">Description</label>
-                    <textarea
-                        class="form-control"
-                        id="description"
-                        name="description"
-                        rows="4"
-                        maxlength="4000"
-                        placeholder="Write a short description of the game"
-                    ></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="4" maxlength="4000"
+                        placeholder="Write a short description of the game"></textarea>
                 </div>
-                
+
 
                 <div class="col-md-6">
                     <div class="form-group upload-panel h-100">
@@ -173,14 +150,11 @@
                                     <input type="file" id="cardImgInp" accept="image/*" />
                                 </span>
                             </span>
-                            <input type="text" name="card_img" class="form-control" placeholder="No file selected" readonly />
+                            <input type="text" name="card_img" class="form-control" placeholder="No file selected"
+                                readonly />
                         </div>
-                        <img
-                            id="card-img-upload"
-                            class="img-fluid rounded border mt-3 d-none"
-                            alt="Selected game card image preview"
-                            style="max-height: 240px; object-fit: contain;"
-                        />
+                        <img id="card-img-upload" class="img-fluid rounded border mt-3 d-none"
+                            alt="Selected game card image preview" style="max-height: 240px; object-fit: contain;" />
                     </div>
                 </div>
 
@@ -194,14 +168,11 @@
                                     <input type="file" id="boxImgInp" accept="image/*" />
                                 </span>
                             </span>
-                            <input type="text" name="box_img" class="form-control" placeholder="No file selected" readonly />
+                            <input type="text" name="box_img" class="form-control" placeholder="No file selected"
+                                readonly />
                         </div>
-                        <img
-                            id="box-img-upload"
-                            class="img-fluid rounded border mt-3 d-none"
-                            alt="Selected game box image preview"
-                            style="max-height: 240px; object-fit: contain;"
-                        />
+                        <img id="box-img-upload" class="img-fluid rounded border mt-3 d-none"
+                            alt="Selected game box image preview" style="max-height: 240px; object-fit: contain;" />
                     </div>
                 </div>
 

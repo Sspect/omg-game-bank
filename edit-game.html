@@ -92,12 +92,14 @@
 
 				<div class="col-12 col-md-6">
 					<label for="game_complexity" class="form-label">Game Complexity</label>
-					<select class="form-select" id="game_complexity" name="game_complexity">
-						<option value="" selected>Choose complexity</option>
-						<option value="Light">Light</option>
-						<option value="Medium">Medium</option>
-						<option value="Heavy">Heavy</option>
-					</select>
+					<input
+						type="text"
+						class="form-control"
+						id="game_complexity"
+						name="game_complexity"
+						maxlength="255"
+						placeholder="e.g. Light, Medium, Heavy"
+					/>
 				</div>
 
 				<div class="col-12 col-md-6">
