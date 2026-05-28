@@ -34,7 +34,6 @@ a place for all my books
 stardew valley the board game 
 
 
-test
 todo:
 
 add cost
