@@ -7,6 +7,7 @@ const THEME_TABLE = 'Theme'
 const MECHANICS_TABLE = 'Mechanics'
 
 const controlsContainer = document.getElementById('displayFieldControls')
+/* Choose What To Display / controlsContainer */
 const gamesList = document.getElementById('gamesList')
 const selectAllButton = document.getElementById('selectAllDisplayFields')
 const deselectAllButton = document.getElementById('deselectAllDisplayFields')
@@ -270,8 +271,7 @@ const DISPLAY_FIELDS = [
 		getValue: (game) => game.card_image_path
 	}
 ]
-
-const selectedFields = new Set(['players', 'owner'])
+const selectedFields = new Set(["players", "owner", "image", "description", "time", "complexity"])
 let games = []
 
 function toPublicImageUrl(imagePath) {
@@ -343,25 +343,24 @@ function renderGames() {
 		card.className = 'col-12 col-md-6 col-xl-4'
 		const imageEnabled = selectedFields.has('image')
 		const imageUrl = imageEnabled ? toPublicImageUrl(game.card_image_path) : ''
+		const imageStatus = imageEnabled && !imageUrl
+			? '<p class="text-body-secondary small mb-3">Image: Not available</p>'
+			: ''
 		const descriptionField = DISPLAY_FIELDS.find((field) => field.key === 'description')
 		const descriptionEnabled = selectedFields.has('description')
 		const descriptionValue = descriptionField && descriptionEnabled
 			? formatDescriptionHtml(descriptionField.getValue(game))
 			: null
-		const descriptionBox = descriptionValue
-			? `<div class="mb-3 p-3 border rounded bg-body-tertiary"><strong>Description</strong><p class="mb-0 mt-2">${descriptionValue}</p></div>`
+		const descriptionBox = descriptionEnabled
+			? `<div class="mb-3 p-3 border rounded bg-body-tertiary"><strong>Description</strong><p class="mb-0 mt-2">${descriptionValue || '<span class="text-body-secondary">Not available</span>'}</p></div>`
 			: ''
 
 		const details = DISPLAY_FIELDS
 			.filter((field) => selectedFields.has(field.key) && field.key !== 'image' && field.key !== 'description')
 			.map((field) => {
 				const formatted = formatValue(field, field.getValue(game))
-				if (!formatted) {
-					return ''
-				}
-				return `<li class="list-group-item"><strong>${field.label}:</strong> ${formatted}</li>`
+				return `<li class="list-group-item"><strong>${field.label}:</strong> ${formatted || '<span class="text-body-secondary">Not available</span>'}</li>`
 			})
-			.filter(Boolean)
 			.join('')
 
 		const editHref = Number.isInteger(game.id)
@@ -377,6 +376,7 @@ function renderGames() {
 							<img src="assets/svg/icons/pencil-square.svg" alt="" width="18" height="18">
 						</a>
 					</div>
+					${imageStatus}
 					${descriptionBox}
 					${details ? `<ul class="list-group list-group-flush">${details}</ul>` : '<p class="text-body-secondary mb-0">No extra fields selected.</p>'}
 				</div>
