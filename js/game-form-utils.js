@@ -103,6 +103,7 @@ export function buildGamePayload(formData, cardImagePath, boxImagePath) {
 		time_min: parseInteger(formData.get('game_time_min')),
 		time_max: parseInteger(formData.get('game_time_max')),
 		year_published: parseInteger(formData.get('year_published')),
+		cost: parseNumber(formData.get('cost')),
 		game_complexity: String(formData.get('game_complexity') || '').trim() || null,
 		recommended_age: parseInteger(formData.get('recommended_age')),
 		expansion,

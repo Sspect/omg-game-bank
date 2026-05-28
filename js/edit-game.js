@@ -139,6 +139,7 @@ function populateForm(existingRow) {
 	setInputValue('game_time_min', existingRow.time_min)
 	setInputValue('game_time_max', existingRow.time_max)
 	setInputValue('year_published', existingRow.year_published)
+	setInputValue('cost', existingRow.cost)
 	setInputValue('game_complexity', existingRow.game_complexity)
 	setInputValue('recommended_age', existingRow.recommended_age)
 	setExpansionValue(existingRow.expansion)

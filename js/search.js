@@ -243,6 +243,11 @@ const DISPLAY_FIELDS = [
 		getValue: (game) => game.year_published
 	},
 	{
+		key: 'cost',
+		label: 'Cost',
+		getValue: (game) => game.cost
+	},
+	{
 		key: 'expansion',
 		label: 'Expansion',
 		getValue: (game) => {
@@ -308,6 +313,17 @@ function formatValue(field, value) {
 			return String(value)
 		}
 		return date.toLocaleString()
+	}
+
+	if (field.key === 'cost') {
+		const numericValue = Number(value)
+		if (Number.isFinite(numericValue)) {
+			return numericValue.toLocaleString(undefined, {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			})
+		}
+		return String(value)
 	}
 
 	return String(value)

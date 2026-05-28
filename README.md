@@ -36,7 +36,6 @@ stardew valley the board game
 
 todo:
 
-add cost
 
 expansion bool to string
 
