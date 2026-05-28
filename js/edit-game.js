@@ -155,17 +155,17 @@ function populateForm(existingRow) {
 	setInputValue('description', existingRow.description)
 	setInputValue('game_more_info', existingRow.more_info)
 
-	const tags = normalizeIdList(existingRow.tags)
+	const vibes = normalizeIdList(existingRow.vibes ?? existingRow.tags)
 	const theme = normalizeIdList(existingRow.theme)
 	const mechanics = normalizeIdList(existingRow.mechanics)
 
-	setInputValue('tags', tags.join(','))
+	setInputValue('vibes', vibes.join(','))
 	setInputValue('theme', theme.join(','))
 	setInputValue('game_mechanics', mechanics.join(','))
 
 	form.dispatchEvent(new CustomEvent('picker:prefill', {
 		detail: {
-			tags,
+			vibes,
 			theme,
 			mechanics
 		}

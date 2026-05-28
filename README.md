@@ -36,7 +36,4 @@ stardew valley the board game
 
 todo:
 
-
-expansion bool to string
-
-rename tags to vibes
+rename complete: tags -> vibes

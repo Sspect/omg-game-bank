@@ -2,7 +2,7 @@ import { supabase, supabaseUrl } from './supabase.js'
 
 const publicBucketBaseUrl = `${supabaseUrl}/storage/v1/object/public/game-image/`
 
-const TAGS_TABLE = 'Tags'
+const VIBES_TABLE = 'Vibes'
 const THEME_TABLE = 'Theme'
 const MECHANICS_TABLE = 'Mechanics'
 
@@ -17,7 +17,7 @@ if (!controlsContainer || !gamesList || !selectAllButton || !deselectAllButton) 
 }
 
 const relationLookupMaps = {
-	tags: new Map(),
+	vibes: new Map(),
 	theme: new Map(),
 	mechanics: new Map()
 }
@@ -116,14 +116,14 @@ function formatRelationValues(value, lookupMap) {
 }
 
 async function loadRelationLookupMaps() {
-	const [tagsResult, themeResult, mechanicsResult] = await Promise.all([
-		supabase.from(TAGS_TABLE).select('*'),
+	const [vibesResult, themeResult, mechanicsResult] = await Promise.all([
+		supabase.from(VIBES_TABLE).select('*'),
 		supabase.from(THEME_TABLE).select('*'),
 		supabase.from(MECHANICS_TABLE).select('*')
 	])
 
-	if (tagsResult.error) {
-		console.error('Error loading tag lookup table:', tagsResult.error)
+	if (vibesResult.error) {
+		console.error('Error loading vibe lookup table:', vibesResult.error)
 	}
 	if (themeResult.error) {
 		console.error('Error loading theme lookup table:', themeResult.error)
@@ -132,10 +132,10 @@ async function loadRelationLookupMaps() {
 		console.error('Error loading mechanics lookup table:', mechanicsResult.error)
 	}
 
-	relationLookupMaps.tags = buildRelationLookupMap(
-		tagsResult.data,
-		['id', 'tag_id', 'uuid'],
-		['name', 'tag', 'tag_name', 'title', 'label']
+	relationLookupMaps.vibes = buildRelationLookupMap(
+		vibesResult.data,
+		['id', 'vibe_id', 'uuid'],
+		['name', 'vibe', 'vibe_name', 'title', 'label']
 	)
 	relationLookupMaps.theme = buildRelationLookupMap(
 		themeResult.data,
@@ -218,9 +218,9 @@ const DISPLAY_FIELDS = [
 		getValue: (game) => game.description ?? game.game_description
 	},
 	{
-		key: 'tags',
-		label: 'Tags',
-		getValue: (game) => formatRelationValues(game.tags, relationLookupMaps.tags)
+		key: 'vibes',
+		label: 'Vibes',
+		getValue: (game) => formatRelationValues(game.vibes ?? game.tags, relationLookupMaps.vibes)
 	},
 	{
 		key: 'theme',
