@@ -19,6 +19,8 @@
 
 [Assistant video demo](https://www.youtube.com/watch?v=6iog8Ww8rqQ)
 
+[Discord](https://discord.gg/ae9YnwGBw5)
+
 1. User selects image
 2. JavaScript uploads image to Supabase Storage bucket
 3. Supabase returns file path
