@@ -31,6 +31,56 @@ export function normalizeIdList(value) {
 	return []
 }
 
+export function mapTagRowsToItems(rows, { nameColumns = [], idColumns = [] } = {}) {
+	const candidateNameColumns = nameColumns.length ? nameColumns : ['name', 'title', 'label']
+	const candidateIdColumns = idColumns.length ? idColumns : ['id', 'uuid']
+
+	function normalizeValue(value) {
+		return String(value ?? '').trim()
+	}
+
+	function extractName(row) {
+		for (const column of candidateNameColumns) {
+			if (row?.[column]) {
+				return normalizeValue(row[column])
+			}
+		}
+
+		const fallback = Object.values(row || {}).find((value) => typeof value === 'string' && normalizeValue(value))
+		return normalizeValue(fallback)
+	}
+
+	function extractId(row) {
+		for (const column of candidateIdColumns) {
+			if (row?.[column] !== undefined && row?.[column] !== null) {
+				return row[column]
+			}
+		}
+
+		return null
+	}
+
+	const seen = new Set()
+
+	return (rows || [])
+		.map((row) => {
+			const name = extractName(row)
+			return {
+				id: extractId(row),
+				name
+			}
+		})
+		.filter((item) => {
+			const key = normalizeValue(item.name).toLowerCase()
+			if (!key || seen.has(key)) {
+				return false
+			}
+			seen.add(key)
+			return true
+		})
+		.sort((a, b) => a.name.localeCompare(b.name))
+}
+
 export function setupTagPicker({
 	supabase,
 	tableName,

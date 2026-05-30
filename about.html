@@ -10,6 +10,7 @@
 </head>
 
 <script src="js/load-components.js"></script>
+
 <body>
     <div id="header-container"></div>
 
@@ -24,19 +25,21 @@
             available in OMG storage, making it a useful resource for both board game enthusiasts and people looking to
             discover new games to play. </p>
 
-        <div class="card border-0 shadow mt-4 overflow-hidden" style="background: linear-gradient(135deg, #1f2430 0%, #2b3140 100%);">
+        <div class="card border-0 shadow mt-4 overflow-hidden"
+            style="background: linear-gradient(135deg, #1f2430 0%, #2b3140 100%);">
             <div class="card-body p-4">
                 <div class="row align-items-center g-4">
                     <div class="col-12 col-md-3 text-center">
                         <img src="assets/img/about/discord-logo-icon-editorial-free-vector.jpg"
-                            class="img-fluid rounded-3 border border-light-subtle shadow-sm"
-                            alt="Discord logo"
+                            class="img-fluid rounded-3 border border-light-subtle shadow-sm" alt="Discord logo"
                             style="max-width: 140px;" />
                     </div>
                     <div class="col-12 col-md-9">
                         <h2 class="h4 mb-2 text-white">Join Our Discord Community</h2>
-                        <p class="text-light-emphasis mb-3">Connect with other board game enthusiasts at OMG and help shape OsloMet Game Bank.</p>
-                        <p class="text-light mb-2">In the Bugs &amp; Features channel, anyone can create a post using the 🐞bugs-and-features form if they discover a bug or have a feature idea.</p>
+                        <p class="text-light-emphasis mb-3">Connect with other board game enthusiasts at OMG and help
+                            shape OsloMet Game Bank.</p>
+                        <p class="text-light mb-2">In the Bugs &amp; Features channel, anyone can create a post using
+                            the 🐞bugs-and-features form if they discover a bug or have a feature idea.</p>
                         <p class="text-light mb-2 fw-semibold">Join to:</p>
                         <ul class="mb-3 text-light">
                             <li>Discuss board games</li>
@@ -49,6 +52,162 @@
                             rel="noopener noreferrer">
                             Join Discord
                         </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow mt-4 overflow-hidden"
+            style="background: linear-gradient(135deg, #203a2d 0%, #294a39 100%);">
+            <div class="card-body p-4">
+                <div class="row align-items-center g-4">
+                    <div class="col-12 col-md-3 text-center">
+                        <img src="assets/img/logos/json-logo-icon-.png"
+                            class="img-fluid rounded-3 border border-light-subtle shadow-sm" alt="JSON GPT logo"
+                            style="max-width: 140px;" />
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <h2 class="h4 mb-2 text-white">Board Game JSON GPT</h2>
+                        <p class="text-light-emphasis mb-0">
+                            A specialized GPT that converts board game titles into clean, structured JSON objects for
+                            the OsloMet Gaming Supabase database. It automatically pulls key game details from
+                            BoardGameGeek and maps themes, mechanics, and vibes to the correct database IDs using custom
+                            CSV lookup tables.
+                        </p>
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+                            <a class="btn btn-info fw-semibold"
+                                href="https://chatgpt.com/g/g-6a18ab6d1d688191b5c188d56e077f13-board-game-to-jason-object-oslomet-gaming-db"
+                                target="_blank" rel="noopener noreferrer">
+                                Open Board Game JSON GPT
+                            </a>
+                            <a class="btn btn-outline-light fw-semibold" href="import-game.html">
+                                Go to Import Game
+                            </a>
+                            <button class="btn btn-outline-info fw-semibold" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#gptInstructionsCollapse" aria-expanded="false"
+                                aria-controls="gptInstructionsCollapse">
+                                Show GPT Instructions
+                            </button>
+                        </div>
+                        <div class="collapse mt-3" id="gptInstructionsCollapse">
+                            <div class="card card-body bg-dark border-light-subtle">
+                                <pre class="mb-0 text-light-emphasis" style="white-space: pre-wrap;">You are a board game data formatter for a Supabase database
+
+The user will give you the name of a board game.
+
+Your job is to return a JSON object that can be inserted directly into the Supabase `Game` table.
+
+Use the uploaded CSV files as lookup tables:
+
+* Use the Vibes CSV to find matching vibe IDs.
+* Use the Theme CSV to find matching theme IDs.
+* Use the Mechanics CSV to find matching mechanic IDs.
+
+The `vibes`, `theme`, and `mechanics` fields must contain INTEGER IDs from those CSV files, not names.
+If no confident match exists, use an empty array.
+
+Look up the following information on BoardGameGeek:
+
+* player count
+* play time
+* year published
+* recommended age
+* heavy/complex
+
+Do not invent information. If a value is unknown or uncertain, use `null`.
+
+Output format rules:
+
+* Output only valid JSON.
+* Do not include explanations, markdown, comments, or extra text.
+* Output exactly one JSON object.
+* Use the Supabase column names exactly.
+* Do not include `id`.
+* Do not include `created_at`.
+* Capitalize each word in the `name`.
+* Set `owner` to "OsloMet Gaming" by default.
+* Set `expansion` to "Does not have any expansions" by default.
+* Use `null` for unknown scalar values.
+* Use empty arrays for unknown `vibes`, `theme`, or `mechanics`.
+
+Database columns:
+
+`name`, `players_min`, `players_max`, `owner`, `time_min`, `time_max`, `year_published`, `game_complexity`, `recommended_age`, `expansion`, `condition`, `language`, `game_designer`, `publisher`, `more_info`, `vibes`, `theme`, `mechanics`, `card_image_path`, `description`, `box_image_path`, `cost`
+
+Field rules:
+
+* `players_min`: minimum number of players from BoardGameGeek.
+* `players_max`: maximum number of players from BoardGameGeek.
+* `time_min`: minimum play time in minutes from BoardGameGeek.
+* `time_max`: maximum play time in minutes from BoardGameGeek.
+* `year_published`: year published from BoardGameGeek.
+* `recommended_age`: recommended age from BoardGameGeek.
+* `game_complexity`: use BoardGameGeek weight/complexity if available, otherwise `null`.
+* `condition`: use `Good` unless the user provides it.
+* `language`: use "English" unless the user provides another language.
+* `game_designer`: use known designer name if confidently available, otherwise `null`.
+* `publisher`: use known publisher if confidently available, otherwise `null`.
+* `more_info`: use the BoardGameGeek page URL if available.
+* `description`: write a short factual description of the game if confidently known, otherwise `null`.
+* `card_image_path`: use `null`.
+* `box_image_path`: use `null`.
+* `cost`: use `null` unless the user provides a cost.
+
+Example output shape remember new line for each variable :
+
+{
+"name": "Example Game",
+"players_min": 2,
+"players_max": 4,
+"owner": "OsloMet Gaming",
+"time_min": 30,
+"time_max": 60,
+"year_published": 2020,
+"game_complexity": null,
+"recommended_age": 10,
+"expansion": false,
+"condition": null,
+"language": "English",
+"game_designer": null,
+"publisher": null,
+"more_info": null,
+"vibes": [],
+"theme": [],
+"mechanics": [],
+"card_image_path": null,
+"description": null,
+"box_image_path": null,
+"cost": null
+}</pre>
+                            </div>
+                            <div class="card card-body bg-dark border-light-subtle mt-3">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                                    <h3 class="h6 text-light mb-0">Live Tag Lookup Tables</h3>
+                                    <button id="refreshTagLookupTables" type="button" class="btn btn-outline-info btn-sm">Refresh tables</button>
+                                </div>
+                                <p class="small text-light-emphasis mb-3">These values are loaded directly from Supabase and can be used as IDs in vibes, theme, and mechanics arrays.</p>
+                                <div class="row g-3">
+                                    <div class="col-12 col-lg-4">
+                                        <div class="border border-light-subtle rounded p-2">
+                                            <h4 class="h6 text-light mb-2">Mechanics</h4>
+                                            <div id="mechanicsLookupTableContainer" class="small text-body-secondary">Open this section to load data.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4">
+                                        <div class="border border-light-subtle rounded p-2">
+                                            <h4 class="h6 text-light mb-2">Theme</h4>
+                                            <div id="themeLookupTableContainer" class="small text-body-secondary">Open this section to load data.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4">
+                                        <div class="border border-light-subtle rounded p-2">
+                                            <h4 class="h6 text-light mb-2">Vibes</h4>
+                                            <div id="vibesLookupTableContainer" class="small text-body-secondary">Open this section to load data.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,6 +229,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
+    <script type="module" src="js/about-tag-tables.js"></script>
 </body>
 
 </html>

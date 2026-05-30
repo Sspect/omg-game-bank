@@ -9,10 +9,40 @@
 </head>
 
 <script src="js/load-components.js"></script>
+
 <body>
     <div id="header-container"></div>
-    <textarea id="json-input" class="form-control" rows="14"></textarea>
-    <button id="import-btn" class="btn btn-primary mt-3">Import game</button>
+
+    <main class="container py-4">
+        <div class="card border-secondary-subtle shadow-sm mb-3">
+            <div class="card-body">
+                <h1 class="h5 mb-2">Import Game JSON</h1>
+                <p class="text-body-secondary mb-0">Paste one valid JSON game object into the box, review the values,
+                    then click Import game to save it to the database.</p>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow mb-3 overflow-hidden"
+            style="background: linear-gradient(135deg, #1f2430 0%, #2b3140 100%);">
+            <div class="card-body">
+                <h2 class="h6 text-white mb-2">Need help preparing JSON?</h2>
+                <p class="text-light-emphasis mb-3">Open the About page for setup details, or launch the Board Game JSON
+                    GPT to generate import-ready data.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-outline-light btn-sm" href="about.html">Go to About Page</a>
+                    <a class="btn btn-info btn-sm fw-semibold"
+                        href="https://chatgpt.com/g/g-6a18ab6d1d688191b5c188d56e077f13-board-game-to-jason-object-oslomet-gaming-db"
+                        target="_blank" rel="noopener noreferrer">Open Board Game JSON GPT</a>
+                </div>
+            </div>
+        </div>
+
+        <label for="json-input" class="form-label">Game JSON</label>
+        <textarea id="json-input" class="form-control" rows="14"
+            placeholder='{"name":"Example Game", "owner":"OsloMet Gaming"}'></textarea>
+        <button id="import-btn" class="btn btn-primary mt-3">Import game</button>
+    </main>
+
     <script type="module" src="js/import-game.js"></script>
 </body>
 
