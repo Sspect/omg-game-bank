@@ -87,25 +87,6 @@ function setInputValue(inputId, value) {
 	input.value = value ?? ''
 }
 
-function setExpansionValue(expansionValue) {
-	if (typeof expansionValue === 'string') {
-		setInputValue('expansion_or_base', expansionValue)
-		return
-	}
-
-	if (expansionValue === true) {
-		setInputValue('expansion_or_base', 'Expansion')
-		return
-	}
-
-	if (expansionValue === false) {
-		setInputValue('expansion_or_base', 'Base Game')
-		return
-	}
-
-	setInputValue('expansion_or_base', '')
-}
-
 function showExistingImagePreview(imagePath, imagePreviewElement, fileNameInput, previewUrlState) {
 	clearImagePreview(imagePreviewElement, previewUrlState)
 
@@ -147,7 +128,7 @@ function populateForm(existingRow) {
 	setInputValue('cost', existingRow.cost)
 	setInputValue('game_complexity', existingRow.game_complexity)
 	setInputValue('recommended_age', existingRow.recommended_age)
-	setExpansionValue(existingRow.exspantion ?? existingRow.expansion)
+	setInputValue('expansion_or_base', typeof existingRow.expansion === 'string' ? existingRow.expansion : existingRow.expansion)
 	setInputValue('condition_status', existingRow.condition)
 	setInputValue('language', existingRow.language)
 	setInputValue('game_designer', existingRow.game_designer)
