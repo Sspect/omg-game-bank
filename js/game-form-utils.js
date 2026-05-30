@@ -86,7 +86,6 @@ export async function uploadImageIfSelected(supabase, imageInput, pathPrefix, im
 }
 
 export function buildGamePayload(formData, cardImagePath, boxImagePath) {
-	const expansionValue = String(formData.get('expansion_or_base') || '').trim()
 
 	return {
 		name: String(formData.get('name') || '').trim(),
@@ -99,7 +98,7 @@ export function buildGamePayload(formData, cardImagePath, boxImagePath) {
 		cost: parseNumber(formData.get('cost')),
 		game_complexity: String(formData.get('game_complexity') || '').trim() || null,
 		recommended_age: parseInteger(formData.get('recommended_age')),
-		exspantion: expansionValue || null,
+		expansion: String(formData.get('expansion_or_base') || '').trim() || null,
 		condition: String(formData.get('condition_status') || '').trim() || null,
 		language: String(formData.get('language') || '').trim() || null,
 		game_designer: String(formData.get('game_designer') || '').trim() || null,
