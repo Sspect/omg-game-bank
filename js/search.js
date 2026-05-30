@@ -185,7 +185,7 @@ const DISPLAY_FIELDS = [
         label: "Image",
         getValue: (game) => game.card_image_path,
     },
-	{
+    {
         key: "description",
         label: "Description",
         getValue: (game) => game.description ?? game.game_description,
@@ -223,7 +223,7 @@ const DISPLAY_FIELDS = [
         label: "Complexity",
         getValue: (game) => game.game_complexity,
     },
-	{
+    {
         key: "owner",
         label: "Owner",
         getValue: (game) => game.owner,
@@ -247,10 +247,7 @@ const DISPLAY_FIELDS = [
         key: "vibes",
         label: "Vibes",
         getValue: (game) =>
-            formatRelationValues(
-                game.vibes ?? game.tags,
-                relationLookupMaps.vibes,
-            ),
+            formatRelationValues(game.vibes, relationLookupMaps.vibes),
     },
     {
         key: "theme",
