@@ -114,13 +114,12 @@ function buildRelationLookupMap(rows, idCandidates, nameCandidates) {
 }
 
 function formatRelationValues(value, lookupMap) {
-    const ids = parseIdList(value);
+    const ids = parseIdList(value).filter((id) => id !== "0");
     if (!ids.length) {
         return null;
     }
 
-    const names = ids.map((id) => lookupMap.get(id) || id);
-    return names.join(", ");
+    return ids.map((id) => lookupMap.get(id) || id);
 }
 
 async function loadRelationLookupMaps() {
@@ -325,6 +324,10 @@ function formatValue(field, value) {
         return null;
     }
 
+    if (Array.isArray(value)) {
+        return value.map((item) => String(item)).join(", ");
+    }
+
     if (field.key === "more_info") {
         const url = String(value);
         return `<a href="${url}" target="_blank" rel="noopener noreferrer">${new URL(url).hostname.replace("www.", "")}</a>`;
@@ -369,6 +372,16 @@ function formatDescriptionHtml(value) {
     return escapeHtml(value).replace(/\r?\n/g, "<br>");
 }
 
+function renderRelationTagsHtml(value) {
+    if (!Array.isArray(value) || !value.length) {
+        return '<span class="text-body-secondary">Not available</span>';
+    }
+
+    return `<div class="tag-box-list">${value
+        .map((name) => `<span class="tag-box">${escapeHtml(name)}</span>`)
+        .join("")}</div>`;
+}
+
 function renderGames() {
     gamesList.innerHTML = "";
 
@@ -408,8 +421,22 @@ function renderGames() {
                 field.key !== "description",
         )
             .map((field) => {
-                const formatted = formatValue(field, field.getValue(game));
-                return `<li class="list-group-item"><strong>${field.label}:</strong> ${formatted || '<span class="text-body-secondary">Not available</span>'}</li>`;
+                const rawValue = field.getValue(game);
+                const isRelationField =
+                    field.key === "vibes" ||
+                    field.key === "theme" ||
+                    field.key === "mechanics";
+                if (isRelationField) {
+                    const relationTagsHtml = renderRelationTagsHtml(rawValue);
+                    const hasTags = Array.isArray(rawValue) && rawValue.length > 0;
+                    const separator = hasTags ? "<br>" : " ";
+                    return `<li class="list-group-item"><strong>${field.label}:</strong>${separator}${relationTagsHtml}</li>`;
+                }
+
+                const formatted =
+                    formatValue(field, rawValue) ||
+                    '<span class="text-body-secondary">Not available</span>';
+                return `<li class="list-group-item"><strong>${field.label}:</strong> ${formatted}</li>`;
             })
             .join("");
 
