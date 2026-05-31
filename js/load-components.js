@@ -1,3 +1,6 @@
+
+const loadUnderConstruction = true;
+
 async function loadComponent(elementId, filePath) {
     const element = document.getElementById(elementId);
 
@@ -20,4 +23,7 @@ async function loadComponent(elementId, filePath) {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadComponent("header-container", "assets/components/header.html");
+    if (loadUnderConstruction) {
+        loadComponent("under-construction", "assets/components/under-construction.html");
+    }
 });
